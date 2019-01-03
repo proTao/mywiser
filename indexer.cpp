@@ -23,7 +23,7 @@ bool IndexConstructor::addDocument(BaseParser& parser) {
    uint32_t document_offset{1};
    while(parser.getContent(line)) {
       // cout<<line<<" "<<document_offset << " " << line.size()<<endl;
-      IndexConstructor::tokenizer.tokenize(line, jiebawords);
+      IndexConstructor::tokenizer.tokenize(line, jiebawords, true);
       for(auto jiebaword: jiebawords) {
          // cout<<jiebaword<<endl;
          addWord2InverseList(jiebaword.word, 
@@ -64,7 +64,14 @@ bool IndexConstructor::addWord2InverseList(const string& word,
    return true;
 }
 
-InverseList* 
+InverseListHeader* IndexConstructor::getQueryResult(const string& query) {
+   vector<cppjieba::Word> querywords;
+   this->tokenizer.tokenize(query, querywords, false);
+   InverseListHeader* temp = new InverseListHeader();
+   
+   // TODO
+   return temp;
+}
 
 void IndexConstructor::searchWord(const string& word) const {
    auto it = iindex.find(word);

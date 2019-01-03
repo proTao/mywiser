@@ -11,7 +11,7 @@ using std::vector;
 class Tokenizer {
     public:
         virtual void
-        tokenize(const string&, vector<cppjieba::Word>&) = 0;
+        tokenize(const string&, vector<cppjieba::Word>&, bool) = 0;
 };
 
 
@@ -21,7 +21,7 @@ public:
     JiebaTokenizer() = default;
 
     virtual void
-    tokenize(const string&, vector<cppjieba::Word>&) override;
+    tokenize(const string&, vector<cppjieba::Word>&, bool) override;
 
     static const string DICT_PATH;
     static const string HMM_PATH;
@@ -29,4 +29,5 @@ public:
     static const string IDF_PATH;
     static const string STOP_WORD_PATH;
     static cppjieba::Jieba jieba;
+    static cppjieba::MPSegment seg;
 };

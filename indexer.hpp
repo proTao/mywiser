@@ -23,7 +23,7 @@ public:
         document_path(path), tf(0), positions(), next(nullptr) { }
     ~InverseList() {
         // 链表部分交给 header 来析构
-        cout<<"[deconstruct] InverseList"<<endl;
+        // cout<<"[deconstruct] InverseList"<<endl;
     }
     const string document_path;
     size_t tf; // 文档中的词频
@@ -34,14 +34,16 @@ public:
 struct InverseListHeader {
     InverseListHeader():df(0), total_tf(0), list(nullptr) {}
     ~InverseListHeader() {
-        cout<<"[deconstruct] InverseListHeader"<<endl;
+        // cout<<"[deconstruct] InverseListHeader"<<endl;
         InverseList* p;
-        while(list->next) {
-            p = list->next;
-            list->next = list->next->next;
-            delete p;
+        if(list) {
+            while(list->next) {
+                p = list->next;
+                list->next = list->next->next;
+                delete p;
+            }
+            delete list;
         }
-        delete list;
     }
     uint32_t df; // 出现的文档数目
     uint32_t total_tf; //所有文档中的词频
@@ -57,7 +59,7 @@ class IndexConstructor {
         bool addDocument(BaseParser&);
         using InverseIndex = map<string, InverseListHeader*>;
         void searchWord(const string&) const;
-        InverseList* getQueryResult(const string&);
+        InverseListHeader* getQueryResult(const string&);
         ~IndexConstructor() {
             cout<<"[deconstruct] IndexConstructor"<<endl;
             for(auto it=iindex.begin(); it!=iindex.end(); ++it){

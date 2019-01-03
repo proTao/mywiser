@@ -20,8 +20,17 @@ JiebaTokenizer::jieba = cppjieba::Jieba(DICT_PATH,
    STOP_WORD_PATH
 );
 
-/*********** 静态成员初始化结束 ***********/
+cppjieba::MPSegment
+JiebaTokenizer::seg = cppjieba::MPSegment(JiebaTokenizer::DICT_PATH);
 
-void JiebaTokenizer::tokenize(const string& line, vector<cppjieba::Word>& jiebawords) {
-   JiebaTokenizer::jieba.CutForSearch(line, jiebawords);
+/*********** 静态成员初始化结束 ***********/
+void JiebaTokenizer::tokenize(const string& line, 
+                              vector<cppjieba::Word>& jiebawords, 
+                              bool forSearch) {
+   if(forSearch) {
+      JiebaTokenizer::jieba.CutForSearch(line, jiebawords);
+   }
+   else {
+      JiebaTokenizer::seg.Cut(line, jiebawords);
+   }
 }
