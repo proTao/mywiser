@@ -1,5 +1,5 @@
-#ifndef _PARSER_HPP
-#define _PARSER_HPP
+#ifndef __PARSER_HPP
+#define __PARSER_HPP
 
 #include <fstream>
 using std::ifstream;
@@ -34,10 +34,8 @@ protected:
 
 class DocParser : public BaseParser {
 public:
-    DocParser():
-        BaseParser() { }
-    DocParser(const string& path):
-        BaseParser(path) { }
+    DocParser(): BaseParser() { }
+    DocParser(const string& path): BaseParser(path) { }
     bool getContent(string&) override;
 };
 

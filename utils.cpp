@@ -1,26 +1,49 @@
+#include "utils.hpp"
+#include <codecvt>
+#include <string>
+#include <locale>
 #include <iostream>
-#include <mysql.h>
 
-using namespace std;
+using std::wstring_convert;
+using std::string;
+using std::wstring;
+using std::codecvt_utf8;
+using std::locale;
 
-int main(int argc,char *argv[])
-{
-    MYSQL conn;
-    int res;
-    mysql_init(&conn);
-    if(mysql_real_connect(&conn,"localhost","root","123456","mywiser",0,NULL,CLIENT_FOUND_ROWS)) //"root":数据库管理员 "":root密码 "test":数据库的名字
-    {
-        cout<<"connect success!\n"<<endl;
-        res=mysql_query(&conn,"insert into documents (documentPath, docType) values ('user','123456');");
-        if(res)
-        {
-         cout<<"error\n"<<endl;
-        }
-        else
-        {
-            cout<<"OK\n"<<endl;
-        }
-        mysql_close(&conn);
+using std::cin;
+using std::cout;
+using std::endl;
+
+
+bool isUtf8Punct(const std::string& s)  {
+    // 参考：https://www.zhihu.com/question/35254977/answer/61945181
+    
+    wstring_convert<codecvt_utf8<wchar_t>> conv;
+    wstring ws = conv.from_bytes(s);
+    wchar_t ch = ws.at(0);
+    locale loc("en_US.UTF-8");
+    if (!ispunct(ch, loc) && !iswspace(ch) ){
+        return false;
     }
-    return 0;
+    return true;
 }
+
+// bool isUtf8Punct(const cppjieba::Word& w)  {
+//     string s = w.word;
+//     wstring_convert<codecvt_utf8<wchar_t>> conv;
+//     wstring ws = conv.from_bytes(s);
+//     wchar_t ch = ws.at(0);
+//     locale loc("en_US.UTF-8");
+//     if (!ispunct(ch, loc) && !iswspace(ch) ){
+//         return false;
+//     }
+//     return true;
+// }
+
+// int main(){
+//     string s;
+//     cout<<"input"<<endl;
+//     cin >> s;
+//     cout<<isUtf8Punct(s)<<endl;
+//     return 0;
+// }

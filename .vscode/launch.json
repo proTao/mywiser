@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/main",
             //"preLaunchTask": "build",
             "args": [],
-            "stopAtEntry": false,
+            "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
