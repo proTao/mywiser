@@ -26,27 +26,32 @@ int main() {
     // parser.open(docpath);
     parser.open("temp1");
     indexer.addDocument(parser);
+    cout<<"temp1 over"<<endl;
 
     // cout<<"输入要扫描的文档2: "<<endl;
     // cin>>docpath;
     // parser.open(docpath);
     parser.open("temp2");
     indexer.addDocument(parser);
+    cout<<"temp2 over"<<endl;
 
     // cout<<"输入要扫描的文档3: "<<endl;
     // cin>>docpath;
     // parser.open(docpath);
     parser.open("temp3");
     indexer.addDocument(parser);
+    cout<<"temp3 over"<<endl;
 
     cout<<"输入要查询的短语: "<<endl;
     cin>>word;
-    auto header = indexer.getQueryResult(word);
+    auto header = indexer.recall(word);
     InverseList* p = header->next;
     while(p){
         string doc;
         indexer.db.getDocumentById(p->documentId, doc);
-        cout<<doc<<endl;
+        cout<<"出现的文档为"<<doc<<endl;
+        cout<<"出现的次数为"<< p->tf<<endl;
+        cout<<"出现的位置为"<< p->positions <<endl;
         p = p->next;
     }
 
